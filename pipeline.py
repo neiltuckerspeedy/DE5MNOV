@@ -3,8 +3,14 @@ import numpy as np
 import pandas as pd
 
 #Function Definitions
+      
+
+
 def duration(row):
     return (row['Book Returned'] - row['Book checkout']).days
+
+def quotereplace(a):
+    return a.str.replace('"','', regex=False).str.strip()
 
 def main():
 
@@ -28,8 +34,8 @@ def main():
     systembook_cleaned = systembook_cleaned.dropna()
     systembook_cleaned["Id"] = systembook_cleaned["Id"].astype(int)
     systembook_cleaned["Customer ID"] = systembook_cleaned["Customer ID"].astype(int)
-    systembook_cleaned["Book checkout"]= systembook_cleaned["Book checkout"].str.replace('"','', regex=False)
-    systembook_cleaned["Book Returned"]= systembook_cleaned["Book Returned"].str.replace('"','', regex=False)
+    systembook_cleaned["Book checkout"]= quotereplace(systembook_cleaned["Book checkout"])
+    systembook_cleaned["Book Returned"]= quotereplace(systembook_cleaned["Book Returned"])
     systembook_cleaned["Book checkout"] = pd.to_datetime(systembook_cleaned["Book checkout"], format="%d/%m/%Y", errors="coerce")
     systembook_cleaned["Book Returned"] = pd.to_datetime(systembook_cleaned["Book Returned"], format="%d/%m/%Y", errors="coerce")
     systembook_cleaned['Duration_Days'] = systembook_cleaned.apply(duration, axis=1)

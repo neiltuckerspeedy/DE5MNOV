@@ -1,6 +1,7 @@
 import unittest
+import pandas.testing as pdt
 from datetime import datetime
-from pipeline_test import duration
+from pipeline import *
 
 class TestOperations(unittest.TestCase):
 
@@ -33,6 +34,12 @@ class TestOperations(unittest.TestCase):
          result = duration(row)
 
          self.assertEqual(result, 0, "Should be 0")
+
+    def testquotereplace(self):
+         testquote = pd.Series(['" some text "'])
+         result = quotereplace(testquote)
+         expected = pd.Series(['some text'])
+         pdt.assert_series_equal(result,expected)
 
 
 if __name__ == "__main__":
