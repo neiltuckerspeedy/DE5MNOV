@@ -1,6 +1,11 @@
 # Imports
 import numpy as np
 import pandas as pd
+import time
+from datetime import datetime
+import os
+
+start = time.time()
 
 #Function Definitions
       
@@ -47,7 +52,38 @@ def main():
     systembook_valid.to_csv("Data/03_Library Systembook_valid.csv", index=False)
     systembook_notvalid.to_csv("Data/03_Library Systembok_notvalid.csv", index=False)
 
+ #recordcountmetric
+    customers = len(customers.index)
+    customersoutput = len(customers_cleaned.index)
+    systeminput = len(systembook.index)
+    systemcleaned = len(systembook_cleaned.index)
+    systemoutput = len(systembook_notvalid.index) + len(systembook_valid.index)
     
+    data = { 'Customersinput' : np.array([customers]),
+                    'customersoutput' : np.array([customersoutput]),
+                    'systeminput': np.array([systeminput]),
+                    'systemcleaned': np.array([systemcleaned]),
+                    'systemoutput': np.array([systemoutput])
+                    }
+    records = pd.DataFrame(data)
+    
+    records.to_csv("PowerBi/recordsmetrix.csv", index=False)
+
+    #runtimemetric
+    time.sleep(1)
+end = time.time()
+
+timestamp = datetime.now()
+
+timetaken_sec = end - start
+
+runtime = pd.DataFrame ({
+    "timestamp": [timestamp],
+    "runtime_secs": [timetaken_sec]
+})
+
+runtime.to_csv("PowerBi/runtime.csv", mode="a", header=not os.path.exists ("PowerBi/runtime.csv"), index=False )
+
 
 if __name__ == "__main__":
     main()

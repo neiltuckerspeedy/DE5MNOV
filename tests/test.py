@@ -1,7 +1,7 @@
 import unittest
 import pandas.testing as pdt
 from datetime import datetime
-from pipeline import *
+from pipeline_test import *
 
 class TestOperations(unittest.TestCase):
 
