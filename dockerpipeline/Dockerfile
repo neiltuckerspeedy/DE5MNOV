@@ -1,0 +1,6 @@
+FROM python:3.12-slim
+WORKDIR /app
+COPY . .
+# installing dependencies
+RUN pip install -r requirements.txt
+ENTRYPOINT ["python3", "pipeline.py"]
